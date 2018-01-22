@@ -4,8 +4,8 @@
 # import the necessary packages
 from sklearn.externals import joblib
 from sklearn.svm import LinearSVC
-from pyimagesearch.hog import HOG
-from pyimagesearch import dataset
+from utilities.hog import HOG
+from utilities import dataset
 import argparse
 
 # construct the argument parse and parse the arguments

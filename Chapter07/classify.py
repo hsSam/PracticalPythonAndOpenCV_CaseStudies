@@ -3,7 +3,7 @@
 
 # import the necessary packages
 from __future__ import print_function
-from pyimagesearch.rgbhistogram import RGBHistogram
+from utilities.rgbhistogram import RGBHistogram
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cross_validation import train_test_split

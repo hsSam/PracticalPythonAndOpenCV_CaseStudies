@@ -3,8 +3,8 @@
 
 # import the necessary packages
 from __future__ import print_function
-from pyimagesearch.coverdescriptor import CoverDescriptor
-from pyimagesearch.covermatcher import CoverMatcher
+from utilities.coverdescriptor import CoverDescriptor
+from utilities.covermatcher import CoverMatcher
 import argparse
 import glob
 import csv

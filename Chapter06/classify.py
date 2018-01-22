@@ -4,8 +4,8 @@
 # import the necessary packages
 from __future__ import print_function
 from sklearn.externals import joblib
-from pyimagesearch.hog import HOG
-from pyimagesearch import dataset
+from utilities.hog import HOG
+from utilities import dataset
 import argparse
 import mahotas
 import cv2
