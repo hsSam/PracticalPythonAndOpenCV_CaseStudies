@@ -1,0 +1,17 @@
+NOTES ON EXPERIMENTS:
+
+messi.png
+faceRects = fd.detect(gray, scaleFactor = 1.1, minNeighbors = 5,
+	minSize = (30, 30))
+
+messi2.png
+faceRects = fd.detect(gray, scaleFactor = 1.2, minNeighbors = 5,
+	minSize = (30, 30))
+
+obama.png
+faceRects = fd.detect(gray, scaleFactor = 1.1, minNeighbors = 5,
+	minSize = (30, 30))
+
+obama2.png
+faceRects = fd.detect(gray, scaleFactor = 1.1, minNeighbors = 5,
+	minSize = (30, 30))
