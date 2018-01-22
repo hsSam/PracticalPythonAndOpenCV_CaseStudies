@@ -1,85 +1,74 @@
-# USAGE
-# python classify.py --images dataset/images --masks dataset/masks
-
-# import the necessary packages
-from __future__ import print_function
 from utilities.rgbhistogram import RGBHistogram
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import classification_report
 import numpy as np
-import argparse
 import glob
 import cv2
 
-# construct the argument parser and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--images", required = True,
-	help = "path to the image dataset")
-ap.add_argument("-m", "--masks", required = True,
-	help = "path to the image masks")
-args = vars(ap.parse_args())
 
-# grab the image and mask paths
-imagePaths = sorted(glob.glob(args["images"] + "/*.png"))
-maskPaths = sorted(glob.glob(args["masks"] + "/*.png"))
+# Define paths
+path_to_images = 'dataset/images'
+path_to_masks = 'dataset/masks'
 
-# initialize the list of data and class label targets
+# Grab the image and mask paths
+image_paths = sorted(glob.glob(path_to_images + "/*.png"))
+mask_paths = sorted(glob.glob(path_to_masks + "/*.png"))
+
+# Initialize the list of data and class label targets
 data = []
 target = []
 
-# initialize the image descriptor
-desc = RGBHistogram([8, 8, 8])
+# Initialize the image descriptor
+descriptor = RGBHistogram([8, 8, 8])
 
-# loop over the image and mask paths
-for (imagePath, maskPath) in zip(imagePaths, maskPaths):
-	# load the image and mask
-	image = cv2.imread(imagePath)
-	mask = cv2.imread(maskPath)
+# Loop over the image and mask paths
+for (image_path, mask_path) in zip(image_paths, mask_paths):
+	# Load the image and mask
+	image = cv2.imread(image_path)
+	mask = cv2.imread(mask_path)
 	mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
 
-	# describe the image
-	features = desc.describe(image, mask)
+	# Describe the image
+	features = descriptor.describe(image, mask)
 
-	# update the list of data and targets
+	# Update the list of data and targets
 	data.append(features)
-	target.append(imagePath.split("_")[-2])
+	target.append(image_path.split("_")[-2])
 
-# grab the unique target names and encode the labels
-targetNames = np.unique(target)
+# Grab the unique target names and encode the labels
+target_names = np.unique(target)
 le = LabelEncoder()
 target = le.fit_transform(target)
 
-# construct the training and testing splits
-(trainData, testData, trainTarget, testTarget) = train_test_split(data, target,
-	test_size = 0.3, random_state = 42)
+# Construct the training and testing splits
+(train_x, test_x, train_y, test_y) = train_test_split(data, target, test_size=0.3, random_state=42)
 
-# train the classifier
-model = RandomForestClassifier(n_estimators = 25, random_state = 84)
-model.fit(trainData, trainTarget)
+# Train the classifier
+model = RandomForestClassifier(n_estimators=25, random_state=84)
+model.fit(train_x, train_y)
 
-# evaluate the classifier
-print(classification_report(testTarget, model.predict(testData),
-	target_names = targetNames))
+# Evaluate the classifier
+print(classification_report(test_y, model.predict(test_x), target_names=target_names))
 
-# loop over a sample of the images
-for i in np.random.choice(np.arange(0, len(imagePaths)), 10):
-	# grab the image and mask paths
-	imagePath = imagePaths[i]
-	maskPath = maskPaths[i]
+# Loop over a sample of the images
+for i in np.random.choice(np.arange(0, len(image_paths)), 10):
+	# Grab the image and mask paths
+	image_path = image_paths[i]
+	mask_path = mask_paths[i]
 
-	# load the image and mask
-	image = cv2.imread(imagePath)
-	mask = cv2.imread(maskPath)
+	# Load the image and mask
+	image = cv2.imread(image_path)
+	mask = cv2.imread(mask_path)
 	mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
 
-	# describe the image
-	features = desc.describe(image, mask)
+	# Describe the image
+	features = descriptor.describe(image, mask)
 
-	# predict what type of flower the image is
+	# Predict what type of flower the image is
 	flower = le.inverse_transform(model.predict([features]))[0]
-	print(imagePath)
-	print("I think this flower is a {}".format(flower.upper()))
+	print(image_path)
+	print("Prediction: {}".format(flower.upper()))
 	cv2.imshow("image", image)
 	cv2.waitKey(0)
