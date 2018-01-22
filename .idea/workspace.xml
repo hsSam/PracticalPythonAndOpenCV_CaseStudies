@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2fdd8c9-f721-49f4-aaa6-27fece2c44d1" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="$PROJECT_DIR$/Chapter02/detect_faces.py" afterPath="$PROJECT_DIR$/Chapter02/detect_faces.py" />
-      <change beforePath="$PROJECT_DIR$/Chapter02/notes.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Chapter02/param_notes.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Chapter02/pyimagesearch/__init__.py" afterPath="$PROJECT_DIR$/Chapter02/utilities/__init__.py" />
-      <change beforePath="$PROJECT_DIR$/Chapter02/pyimagesearch/facedetector.py" afterPath="$PROJECT_DIR$/Chapter02/utilities/facedetector.py" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
