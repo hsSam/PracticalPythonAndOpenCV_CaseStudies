@@ -29,5 +29,5 @@ for image in digits:
 model = LinearSVC(random_state=42)
 model.fit(data, target)
 
-# Dump the model to file
+# Save the model to file
 joblib.dump(model, model_path)

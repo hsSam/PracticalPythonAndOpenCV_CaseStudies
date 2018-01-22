@@ -19,7 +19,7 @@ hog = HOG(orientations=18, pixels_per_cell=(10, 10), cells_per_block=(1, 1), tra
 image = cv2.imread(image_path)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-# Blur the image, find edges, and then find contours along the edged regions
+# Blur the image, find edges, and find contours along the edged regions
 blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 edged = cv2.Canny(blurred, 30, 150)
 (_, contours, _) = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

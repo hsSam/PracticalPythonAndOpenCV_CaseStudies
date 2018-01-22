@@ -42,7 +42,7 @@ def center_extent(image, size):
 	else:
 		image = imutils.resize(image, height=h)
 
-	# Allocate memory for the extent of the image and grab it
+	# Save memory for the extent of the image and grab it
 	extent = np.zeros((h, w), dtype="uint8")
 	offset_x = (w - image.shape[1]) // 2
 	offset_y = (h - image.shape[0]) // 2

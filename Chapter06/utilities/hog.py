@@ -3,7 +3,7 @@ from skimage import feature
 
 class HOG:
     def __init__(self, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3, 3), transform=False):
-        # Store the number of orientations, pixels per cell, cells per block, and whether or not power law compression
+        # Save the number of orientations, pixels per cell, cells per block, and whether or not power law compression
 		# should be applied
         self.orienations = orientations
         self.pixels_per_cell = pixels_per_cell
