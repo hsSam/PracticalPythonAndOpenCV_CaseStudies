@@ -1,64 +1,44 @@
-# USAGE
-# python cam.py --face cascades/haarcascade_frontalface_default.xml
-# python cam.py --face cascades/haarcascade_frontalface_default.xml --video video/adrian_face.mov
-
-# import the necessary packages
-from pyimagesearch.facedetector import FaceDetector
-from pyimagesearch import imutils
-import argparse
+from utilities.facedetector import FaceDetector
+from utilities import imutils
 import cv2
 
-# construct the argument parse and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-f", "--face", required = True,
-	help = "path to where the face cascade resides")
-ap.add_argument("-v", "--video",
-	help = "path to the (optional) video file")
-args = vars(ap.parse_args())
+# Define paths
+video_path = 'video/adrian_face.mov'
+cascade_path = 'cascades/haarcascade_frontalface_default.xml'
 
-# construct the face detector
-fd = FaceDetector(args["face"])
+# Construct the face detector
+detector = FaceDetector(cascade_path)
 
-# if a video path was not supplied, grab the reference
-# to the gray
-if not args.get("video", False):
-	camera = cv2.VideoCapture(0)
+# Load the video
+camera = cv2.VideoCapture(video_path)
 
-# otherwise, load the video
-else:
-	camera = cv2.VideoCapture(args["video"])
-
-# keep looping
 while True:
-	# grab the current frame
-	(grabbed, frame) = camera.read()
+    # Grab the current frame
+    (ok, frame) = camera.read()
 
-	# if we are viewing a video and we did not grab a
-	# frame, then we have reached the end of the video
-	if args.get("video") and not grabbed:
-		break
+    # If a frame does not exist, video is over
+    if not ok:
+        break
 
-	# resize the frame and convert it to grayscale
-	frame = imutils.resize(frame, width = 300)
-	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # Resize the frame and convert it to greyscale
+    frame = imutils.resize(frame, width=300)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-	# detect faces in the image and then clone the frame
-	# so that we can draw on it
-	faceRects = fd.detect(gray, scaleFactor = 1.1, minNeighbors = 5,
-		minSize = (30, 30))
-	frameClone = frame.copy()
+    # Detect faces in the image and clone the frame
+    face_boxes = detector.detect(gray, 1.1, 5)
+    clone = frame.copy()
 
-	# loop over the face bounding boxes and draw them
-	for (fX, fY, fW, fH) in faceRects:
-		cv2.rectangle(frameClone, (fX, fY), (fX + fW, fY + fH), (0, 255, 0), 2)
+    # Draw the face bounding boxes
+    for (x, y, w, h) in face_boxes:
+        cv2.rectangle(clone, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-	# show our detected faces
-	cv2.imshow("Face", frameClone)
+    # Show our detected faces
+    cv2.imshow("Face", clone)
 
-	# if the 'q' key is pressed, stop the loop
-	if cv2.waitKey(1) & 0xFF == ord("q"):
-		break
+    # Ff the 'q' key is pressed, stop the loop
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
 
-# cleanup the camera and close any open windows
+# Cleanup the camera and close any open windows
 camera.release()
 cv2.destroyAllWindows()
